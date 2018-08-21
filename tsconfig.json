@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+		"target": "es6",
+		"module": "commonjs",
+		"moduleResolution": "node",
+        "sourceMap": true,
+		"watch": true,
+		"rootDir": "src",
+		"experimentalDecorators": true,
+		"outDir": "dist",
+		"lib": ["es6", "dom", "esnext.asynciterable"],
+	},
+	"include": [
+		"src/**/*"
+	  ],
+}
