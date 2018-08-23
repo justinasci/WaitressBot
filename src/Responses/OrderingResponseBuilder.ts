@@ -3,10 +3,10 @@ import { Instance } from "../Models/Instance";
 import { MessageAttachment } from "@slack/client";
 
 class OrderingResponseBuilder extends ResponseBuilder {
-    order(instance: Instance) {
+    set(instance: Instance) {
         this.setVisibleToAll();
         const attachment : MessageAttachment = {
-            text: instance.restaurant.name,
+            text: (instance.restaurant)? instance.restaurant.name : '',
             callback_id: instance.token,
             color: '#3AA3E3',
             actions: [],

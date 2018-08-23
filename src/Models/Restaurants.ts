@@ -1,11 +1,11 @@
 interface MenuItem {
     price: Number;
-    item: String;
+    item: string;
 }
 
 class Category {
     items: Array<MenuItem>;
-    name: String;
+    name: string;
 
     constructor() {
         this.items = new Array<MenuItem>();
@@ -38,7 +38,7 @@ class RestaurantService {
             m.menu.categories[0].items.push({item: 'Lavashas', price: 4.30}, {item: 'Lekshtas', price: 4.90}, {item: 'Bomzar', price: 1.0});
 
             m.menu.categories[1].name = 'Padazas';
-            m.menu.categories[2].items.push({item: 'Casnakinis', price: 4.30}, {item: 'Rembo', price: 4.90});
+            m.menu.categories[1].items.push({item: 'Casnakinis', price: 4.30}, {item: 'Rembo', price: 4.90});
 
             m.menu.categories[2].name = 'Mesa';
             m.menu.categories[2].items.push({item: 'Jautiena', price: 1.20}, {item: 'Vistiena', price: 2.10});

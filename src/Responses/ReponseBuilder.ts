@@ -53,13 +53,12 @@ class ResponseBuilder {
         this.response_type = ResponseType.InChannel;    
     }
 
-    build(): any {
-        const temp = {
+    build():any {
+        return {
             text: this.text,
             attachments: this.attachments,
             channel: this.channel
         }
-        return temp;
     }
 }
 

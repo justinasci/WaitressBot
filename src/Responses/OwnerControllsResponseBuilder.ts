@@ -6,11 +6,11 @@ class OwnerControllsResponseBuilder extends ResponseBuilder {
 
     user: string;
 
-    setControlls(instance: Instance) {
+    set(instance: Instance) {
         this.setVisibleToAll();
         this.user = instance.owner.id;
         const attachment : MessageAttachment = {
-            text: instance.restaurant.name,
+            text: (instance.restaurant)? instance.restaurant.name : '',
             callback_id: instance.token,
             color: '#3AA3E3',
             actions: [],

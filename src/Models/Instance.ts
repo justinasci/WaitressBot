@@ -5,7 +5,6 @@ import { User } from "./User";
 enum Stage { PICK_RESTAURANT, ORDERING, ROLLING, DONE }
 
 class Instance {
-    menu: Menu;
     restaurant: Restaurant;
     token: string;
     stage: Stage;

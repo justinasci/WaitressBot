@@ -23,12 +23,6 @@ class InstanceManager {
         return this.instances.get(token);
     }
 
-    setMenu(token: String, menu: Menu) {
-        const instance = this.instances.get(token);
-        if (!instance) { return; }
-        instance.menu = menu;
-    }
-
     handleEvent(event): Instance {
         const instance = this.instances.get(event.callback_id);
         if (instance.stage === Stage.PICK_RESTAURANT) {

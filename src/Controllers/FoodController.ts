@@ -8,6 +8,7 @@ import { SlackApi } from "../Models/SlackApi";
 import { ResponseBuilder } from "../Responses/ReponseBuilder";
 import { User } from "../Models/User";
 import { OwnerControllsResponseBuilder }from'../Responses/OwnerControllsResponseBuilder'
+import { OrderDialogBuilder } from "../Dialogs/OrderDialogBuilder";
 
 class FoodController {
     foodService :FoodService;
@@ -22,18 +23,16 @@ class FoodController {
         this.slackApi = slackApi;
     } 
 
-    startOrderInstance(request): String {
+    startOrderInstance(request): any {
         console.log(request);
         const restaurants = this.restaurantService.getAll();
-        const builder = new RestaurantResponseBuilder();
         const instance = new Instance();
         instance.owner = {id: request.user_id, name: request.user_name};
         this.instanceManager.add(instance);
-        builder.restaurant(restaurants, instance.token);
-        return builder.build();
+        return new RestaurantResponseBuilder().set(restaurants, instance.token).build();
     }
 
-    processEvent(event) {
+    processEvent(event): any {
         console.log(event);
         if(event.type === 'interactive_message') {
             const instance = this.instanceManager.get(event.callback_id);
@@ -41,19 +40,24 @@ class FoodController {
                 if(instance.stage === Stage.PICK_RESTAURANT) {
                     this.instanceManager._handlePickStageEvent(instance, event);
                     const builder = new OrderingResponseBuilder();
-                    const orderMessage = builder.order(instance).setChannel(event.channel.id).build();
-                    const ownerMessage = new OwnerControllsResponseBuilder().setControlls(instance).setChannel(event.channel.id).build();
-                    //@ts-ignore, Ignoring 'non existant' timestap id.
-                    this.slackApi.web.chat.postMessage(orderMessage).then((r) => {instance.timestampId = r.ts});
+                    const orderMessage = builder.set(instance).setChannel(event.channel.id).build();
+                    const ownerMessage = new OwnerControllsResponseBuilder().set(instance).setChannel(event.channel.id).build();
+
+                    this.slackApi.web.chat.postMessage(orderMessage).then((r) => {
+                        //@ts-ignore, Ignoring 'non existant' timestap id.
+                        instance.timestampId = r.ts;
+                        //@ts-ignore, Ignoring 'non existant' timestap id.
+                        this.slackApi.web.chat.postEphemeral(ownerMessage).then((r) => {instance.ownerControllsId = r.ts});
+                    });
                     console.log(ownerMessage);
-                    //@ts-ignore, Ignoring 'non existant' timestap id.
-                    this.slackApi.web.chat.postEphemeral(ownerMessage).then((r) => {instance.ownerControllsId = r.ts});
                     console.log(instance);
                     return ResponseBuilder.deleteMessage();
                 }
 
                 if (instance.stage === Stage.ORDERING) {
-
+                    const builder = new OrderDialogBuilder().set(instance, event.trigger_id);
+                    console.log(builder.build());
+                    this.slackApi.web.dialog.open(builder.build()).then(r => { console.log(r)}).catch(err => console.log(err));
                 }
             }
         }
