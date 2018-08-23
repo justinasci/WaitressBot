@@ -58,7 +58,7 @@ class FoodController {
             }
         }
 
-        return '';
+        return null;
     }
 }
 

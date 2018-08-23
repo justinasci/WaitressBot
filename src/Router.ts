@@ -8,26 +8,26 @@ import { FoodController } from './Controllers/FoodController';
 
 	constructor(app: any,foodController: FoodController) {
 		this.foodController = foodController;
-
-		app.get('/food', (req, res) => {
-			console.log(req.query.id);
-			return res.send(req);
-		});
 	
 		app.post('/food', this.urlencodedParser,(req: Request, res: Response) => {
-			console.log(req.body);
 			const response = foodController.startOrderInstance(req.body);
 			//@ts-ignore TS2554, Express TS bindins error
 			res.json(response);
-			return res
+			return res;
 		});
 	
 		app.post('/interactive', this.urlencodedParser ,(req: Request, res: Response) => {
 			const parsed = JSON.parse(req.body['payload']);
 			const processed = foodController.processEvent(parsed);
-			//@ts-ignore TS2554, Express TS bindins error
-			res.json(processed); 
-			return res
+			if(processed) {
+				//@ts-ignore TS2554, Express TS bindins error
+				res.json(processed); 
+			} else {
+				//@ts-ignore
+				res.status(200);
+			}
+
+			return res;
 		});
 	}
 
