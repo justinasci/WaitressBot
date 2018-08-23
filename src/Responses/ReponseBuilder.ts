@@ -1,35 +1,51 @@
-import { Attachment, Action } from "../Models/Interactives";
+import { AttachmentAction, MessageAttachment } from "@slack/client";
 
 enum ResponseType { Ephemeral = 'ephemeral', InChannel = 'in_channel' }
 
 class ResponseBuilder {
 
-    text: String;
-    attachments: Array<Attachment>;
+    text: string;
+    channel?: string; 
+    attachments: Array<MessageAttachment>;
     response_type: ResponseType;
 
     constructor() {
         this.text = '';
-        this.attachments = new Array<Attachment>();
+        this.attachments = new Array<MessageAttachment>();
         this.response_type = ResponseType.Ephemeral;
     }
 
-    setText(text:String): ResponseBuilder {
+    static deleteMessage() {
+        return {
+            "response_type": "ephemeral",
+            "replace_original": true,
+            "delete_original": true,
+            "text": ""
+        }
+    }
+
+    setText(text:string): ResponseBuilder {
         this.text = text;
         return this;
     };
 
-    attachment(attachment: Attachment): ResponseBuilder {
+    setChannel(channel :string): ResponseBuilder {
+        this.channel = channel;
+        return this;
+    }
+
+    attachment(attachment: MessageAttachment): ResponseBuilder {
         this.attachments.push(attachment);
         return this;
     }
 
-    baseButtonAction(name:String, value:String) : Action {
-        const action = new Action();
-        action.type = 'button';
-        action.name = name;
-        action.value = value;
-        action.text = name;
+    baseButtonAction(name:string, value:string) : AttachmentAction {
+        const action: AttachmentAction = {
+            type: 'button',
+            text: name,
+            value: value,
+            name: name
+        }
         return action;
     }
 
@@ -38,10 +54,10 @@ class ResponseBuilder {
     }
 
     build(): any {
-        const result = {};
         const temp = {
             text: this.text,
-            attachments: this.attachments
+            attachments: this.attachments,
+            channel: this.channel
         }
         return temp;
     }

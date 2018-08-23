@@ -20,7 +20,7 @@ restaurantService.loadMenus(process.env.MENUS || './menus');
 
 const foodService: FoodService = new FoodService(slackApi);
 const instanceManager: InstanceManager = new InstanceManager(restaurantService, slackApi);
-const foodController: FoodController = new FoodController(foodService, restaurantService, instanceManager);
+const foodController: FoodController = new FoodController(foodService, restaurantService, instanceManager, slackApi);
 const router: Router = new Router(app, foodController);
 
 app.listen(port, () => console.log(`On Port: ${port}`));
