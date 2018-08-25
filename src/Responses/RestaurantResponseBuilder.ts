@@ -6,7 +6,7 @@ class RestaurantResponseBuilder extends ResponseBuilder {
 
     set(restaurants: Restaurant[], callbackID: string): RestaurantResponseBuilder {
         const attachment: MessageAttachment = {
-            text: 'Kur valgyt?',
+            text: 'Pick Menu',
             callback_id: callbackID,
             color: '#3AA3E3',
             actions: [],

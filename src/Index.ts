@@ -10,12 +10,12 @@ const restaurantService: RestaurantService = new RestaurantService();
 
 
 const port = process.env.PORT || 9600;
-const token: string = process.env.TOKEN || '';
+const token: string = process.env.TOKEN || 'xoxb-419484598676-419488947316-4yHqpDEh2wDy0TNFBdxsRwAq';
 const slackApi = new SlackApi(token);
 
 const app = express();
 
-restaurantService.loadMenus(process.env.MENUS || './menus');
+restaurantService.loadMenus(process.env.MENUS || './public/menus');
 
 const instanceManager: InstanceManager = new InstanceManager(restaurantService, slackApi);
 const foodController: FoodController = new FoodController(restaurantService, instanceManager, slackApi);

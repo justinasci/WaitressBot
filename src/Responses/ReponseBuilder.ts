@@ -1,4 +1,4 @@
-import { AttachmentAction, MessageAttachment } from "@slack/client";
+import { AttachmentAction, MessageAttachment, OptionField } from "@slack/client";
 
 enum ResponseType { Ephemeral = 'ephemeral', InChannel = 'in_channel' }
 
@@ -61,6 +61,16 @@ class ResponseBuilder {
 
     primaryButtonAction(name:string, value: string): AttachmentAction {
         return this.buttonAction(name,value, 'primary');
+    }
+
+    baseSelect(name:string, text: string, options: OptionField[]): AttachmentAction {
+        const action: AttachmentAction = {
+            name: name,
+            text: text,
+            type: 'select',
+            options: options
+        }
+        return action;
     }
 
     setVisibleToAll() {

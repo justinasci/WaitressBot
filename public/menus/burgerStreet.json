@@ -1,0 +1,62 @@
+{
+    "name": "Burger Street",
+    "url": "https://www.facebook.com/Burger-street-108459856178519/menu//",
+    "imageUrl": "https://scontent-arn2-1.xx.fbcdn.net/v/t1.0-9/14666125_313877708970065_6083203594348608932_n.png?_nc_cat=0&oh=06af85b7dd78f7b8f9a06b053d3025e2&oe=5C026E92",
+    "menu": {
+        "categories": [
+            {
+                "items": [
+                    {
+                        "name": "Klasika",
+                        "price": 5.9
+                    },
+                    {
+                        "name": "Mexico",
+                        "price": 6.3
+                    },
+                    {
+                        "name": "Big Ben",
+                        "price": 6.3
+                    },
+                    {
+                        "name": "Chicken",
+                        "price": 5.9
+                    },
+                    {
+                        "name": "Chorizo",
+                        "price": 6.3
+                    },
+                    {
+                        "name": "Brooklyn",
+                        "price": 7.3
+                    },
+                    {
+                        "name": "Nacho Macho",
+                        "price": 7.3
+                    },
+                    {
+                        "name": "Kentucky",
+                        "price": 7.3
+                    },
+                    {
+                        "name": "Florida",
+                        "price": 7.3
+                    },
+                    {
+                        "name": "Minnesota",
+                        "price": 7.3
+                    },
+                    {
+                        "name": "Tennessee Pork",
+                        "price": 3.3
+                    },
+                    {
+                        "name": "Savaites",
+                        "price": 5.90
+                    }
+                ],
+                "name": "Burgeris"
+            }
+        ]
+    }
+}

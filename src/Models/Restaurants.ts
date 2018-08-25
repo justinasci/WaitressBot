@@ -1,3 +1,5 @@
+import * as fs from  'fs';
+
 interface MenuItem {
     price: number;
     name: string;
@@ -6,9 +8,11 @@ interface MenuItem {
 class Category {
     items: Array<MenuItem>;
     name: string;
+    optional: boolean
 
     constructor() {
         this.items = new Array<MenuItem>();
+        this.optional = false;
     }
 
     find(itemName: string): MenuItem {
@@ -30,36 +34,51 @@ class Menu {
 class Restaurant {
     name: string;
     menu: Menu;
+    url: string;
+    imageUrl: string;
 }
 
 class RestaurantService {
     restaurants: Map<string, Restaurant>;
     constructor() {
         this.restaurants = new Map<string, Restaurant>();
-        for(let i = 0; i < 5; i++) {
-            const m = new Restaurant();
-            m.name = 'Wrapperia_' + i.toString();
-            m.menu = new Menu();
-
-            m.menu.categories.push(new Category(), new Category(), new Category(), new Category());
-            m.menu.categories[0].name = 'padas';
-            m.menu.categories[0].items.push({name: 'Lavashas', price: 4.30}, {name: 'Lekshtas', price: 4.90}, {name: 'Bomzar', price: 1.0});
-
-            m.menu.categories[1].name = 'Padazas';
-            m.menu.categories[1].items.push({name: 'Casnakinis', price: 4.30}, {name: 'Rembo', price: 4.90});
-
-            m.menu.categories[2].name = 'Mesa';
-            m.menu.categories[2].items.push({name: 'Jautiena', price: 1.20}, {name: 'Vistiena', price: 2.10});
-
-            m.menu.categories[3].name = 'Astrumas';
-            m.menu.categories[3].items.push({name: 'Bieberis', price: 1.20}, {name: 'Rembo', price: 2.10});
-
-            
-            this.restaurants.set(m.name, m);
-        }
     }
-    loadMenus(path: String): boolean {
-        return false;
+    loadMenus(path: string) {
+        const files = fs.readdirSync(path);
+        files.forEach(fileName => {
+            const file =  JSON.parse(fs.readFileSync(path + '/' + fileName, 'utf8').toString());
+            const restaurant = new Restaurant();
+            restaurant.name = file.name;
+            restaurant.url = file.url;
+            restaurant.imageUrl = file.imageUrl;
+            restaurant.menu = new Menu();
+            const menu = restaurant.menu;
+            // 🙏🙏🙏🙏 For everyone reading this. 🙏🙏🙏🙏
+            file.menu.categories.forEach(c => {
+                const mCategory = new Category();
+                mCategory.name = c.name;
+                c.items.forEach((i, ii) => {
+                    if(!i.sizes) {i.sizes = [''];}
+                    i.sizes.forEach((s, si) => {
+                        if(i.items) {
+                            i.items.forEach((it, iti) => {
+                                mCategory.items.push({
+                                    name: `${(s === '')?'':s+' '}${(i.name === '')?'': i.name+' '}${it}`,
+                                    price: (i.price)? i.price[si][iti] : 0
+                                });
+                            });
+                        } else {
+                            mCategory.items.push({
+                                name: i.name,
+                                price: (i.price)? i.price : 0
+                            });
+                        } 
+                    });
+                });
+                menu.categories.push(mCategory);
+            });
+            this.restaurants.set(restaurant.name, restaurant);
+        });
     }
     add(): boolean {
         return false;

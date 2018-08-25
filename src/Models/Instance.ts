@@ -26,11 +26,10 @@ class Instance {
         uorder.user = user;
         uorder.id = this._idTracker++;
         uorder.order = '';
-        let price = 0;
         this.restaurant.menu.categories.forEach(category => {
             const selectedItem = order[category.name];
             const item = category.find(selectedItem);
-            price += item.price;
+            console.log(item);
             uorder.order += `${item.name} `;
         });
 
@@ -54,6 +53,16 @@ class Instance {
             }
         }
         return false;
+    }
+
+    toggleOrderStatus(user: User, orderId: string) {
+        const id = Number.parseInt(orderId);
+        if(id === null) return;
+        if(user.id !== this.owner.id) return;
+        const order = this.orders.filter(ou => ou.id === id);
+        if(order.length > 0) {
+            order[0].paid = !order[0].paid;
+        }
     }
 }
 

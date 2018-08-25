@@ -7,7 +7,7 @@
 		"watch": true,
 		"rootDir": "src",
 		"experimentalDecorators": true,
-		"outDir": "dist",
+		"outDir": "public",
 		"lib": ["es6", "dom", "esnext.asynciterable"],
 	},
 	"include": [

@@ -9,7 +9,7 @@ class OrderDialogBuilder extends DialogBuilder {
             dialog: {
                 callback_id: instance.token + '_order',
                 elements: [],
-                title: 'Pick your food nibba'
+                title: 'Order'
             },
         };
         const menu = (instance.restaurant)? instance.restaurant.menu: null;
@@ -33,15 +33,15 @@ class OrderDialogBuilder extends DialogBuilder {
             
         } else {
             this.dialogArguments.dialog.elements.push({
-                name: 'uzsakymas',
-                label: 'order',
+                name: 'order',
+                label: 'Order',
                 type: 'text',
             });
         }
 
         this.dialogArguments.dialog.elements.push({
             name: 'comment',
-            label: 'Komentaras',
+            label: 'Comment',
             type: 'text',
             optional: true
         });

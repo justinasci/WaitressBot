@@ -37,7 +37,14 @@ class FoodController {
         console.log(event);
         if(event.type === 'interactive_message') {
             const instance = this.instanceManager.get(event.callback_id);
-            const action = event.actions[0].value;
+            let action = '';
+
+            if(event.actions[0].type === 'button') {
+                action = event.actions[0].value;
+            } else if (event.actions[0].type === 'select') {
+                action = event.actions[0].name;
+            }
+           
             if (instance) {
                 if(instance.stage === Stage.PICK_RESTAURANT) {
                     this.instanceManager._handlePickStageEvent(instance, event);
@@ -71,7 +78,11 @@ class FoodController {
                         }
                         
                     } else if (action === 'pay') {
-
+                        const id = event.actions[0].selected_options[0].value;
+                        instance.toggleOrderStatus(event.user, id);
+                        const builder = new OrderingResponseBuilder();
+                        const orderMessage = builder.set(instance).setChannel(event.channel.id).build();
+                        this.slackApi.web.chat.update({ts: instance.timestampId, ...orderMessage});
                     }
                 }
             }

@@ -1,6 +1,6 @@
 import { ResponseBuilder } from "./ReponseBuilder";
 import { Instance } from "../Models/Instance";
-import { MessageAttachment } from "@slack/client";
+import { MessageAttachment, OptionField } from "@slack/client";
 import { UserOrder } from "../Models/UserOrder";
 import { User } from "../Models/User";
 
@@ -34,14 +34,19 @@ class OrderingResponseBuilder extends ResponseBuilder {
     set(instance: Instance) {
         this.setVisibleToAll();
         const attachment : MessageAttachment = {
-            text: (instance.restaurant)? instance.restaurant.name : '',
+            text: '',
             callback_id: instance.token,
             color: '#3AA3E3',
             actions: [],
             fields: [],
+            author_icon: (instance.restaurant.imageUrl)? instance.restaurant.imageUrl: '',
+            author_name: (instance.restaurant)? instance.restaurant.name : '',
+            author_link: (instance.restaurant.url)? instance.restaurant.url : '',
+        
         };
 
         const uniqueOrders: UniqueOrder[] = this.mapUniqueOrders(instance.orders);
+        const options: OptionField[] = [];
 
         uniqueOrders.forEach(order => {
             const users: string = order.userOrders
@@ -55,8 +60,18 @@ class OrderingResponseBuilder extends ResponseBuilder {
             });
         });
 
+        instance.orders.forEach(order => {
+            options.push({
+                text: `${order.id}. <@${order.user.name}> ${(!order.paid)? ':exclamation:': ''} `,
+                value: order.id.toString(),
+            });
+        });
+
         attachment.actions.push(this.baseButtonAction('Order', 'add'));
         attachment.actions.push(this.cancelButtonAction('Cancel my Order', 'cancel'));
+        attachment.actions.push(this.baseSelect('pay','Toggle Order Status', options));
+
+
         this.attachments.push(attachment);
         return this;
     }

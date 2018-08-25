@@ -1,0 +1,52 @@
+{
+    "name": "Wrapperia",
+    "url": "http://wraperia.lt/",
+    "imageUrl": "http://wraperia.lt/wp-content/uploads/2017/04/WSP_logo_80px.png",
+    "menu": {
+        "categories": [
+            {
+                "items": [
+                    {
+                        "name": "Wrappas",
+                        "sizes": ["Didelis", "Mazas"],
+                        "items": ["Vilniaus klasika", "Berlyno reivas", "Hippish Falafel"],
+                        "price": [[4.8, 5.7, 4.8], [3.8, 4.7, 3.8]]
+                    },
+                    {
+                        "name": "Pita",
+                        "items": ["Vilniaus klasika", "Berlyno reivas",  "Hippish Falafel"],
+                        "price":  [[4.6, 5.5, 4.6]]
+                    },
+
+                    {
+                        "name": "Lekshtas",
+                        "items": ["Vilniaus klasika", "Berlyno reivas",  "Hippish Falafel"],
+                        "price":  [[4.9, 5.8, 4.9]]
+                    }
+                ],
+                "name": "Base"
+            }, {
+                "name": "Padazas",
+                "items": [
+                    {
+                        "name": "Agurkas Provanse" 
+                    },
+                    {
+                        "name": "Česnakas teatre" 
+                    },
+                    {
+                        "name": "Olivija laukuose" 
+                    }
+                ]
+            }, {
+                "name": "Astrumas",
+                "items": [{
+                    "name": "Bieber"
+                }, {
+                    "name": "Rembo"
+                }
+            ]
+            }
+        ]
+    }
+}

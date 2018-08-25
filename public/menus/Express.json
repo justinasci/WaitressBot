@@ -1,0 +1,65 @@
+{
+    "name": "Express Pica",
+    "url": "https://www.noriupicos.lt/picos/",
+    "imageUrl": "https://www.noriupicos.lt/wp-content/themes/noriupicos/imgs/map-logo.png",
+    "menu": {
+        "categories": [
+            {
+                "name": "Dydis",
+                "items": [{
+                    "name": "",
+                    "items": ["Maza", "Didele"],
+                    "prices": [0, 2.0]
+                }]
+            },
+            {
+                "items": [
+                    {
+                        "name": "",
+                        "items": [
+                            "Egzotiska",
+                            "Vegetariska",
+                            "Gardzioji",
+                            "Megeju",
+                            "Su Jautiena",
+                            "Aitriuju papriku",
+                            "Akapulko",
+                            "Milano",
+                            "Astrioji",
+                            "Tradicine",
+                            "Palermo",
+                            "Su kelmuciais",
+                            "Provincijos",
+                            "Socioji",
+                            "Sicilijos",
+                            "Su Kumpiu ir grybais",
+                            "Meksikietiska",
+                            "Su Vistiena",
+                            "Havaju",
+                            "Venecijos",
+                            "Su rukyta karka",
+                            "Vulkano",
+                            "Chorizo",
+                            "Salsa",
+                            "Sereno",
+                            "3 Suriu",
+                            "Gurmanu",
+                            "Neopolio",
+                            "Santa Fe",
+                            "Su Tunu",
+                            "Firmine (tik didele)",
+                            "Firmine su vistiena(tik didele)"
+                        ]
+                    }
+                ],
+                "name": "Pica"
+            }, {
+                "name": "Padazas",
+                "items": [{
+                    "name": "",
+                    "items": ["Cesnakinis", "Svelnus"]
+                }]
+            }
+        ]
+    }
+}
