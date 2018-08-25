@@ -11,6 +11,7 @@ const restaurantService: RestaurantService = new RestaurantService();
 
 const port = process.env.PORT || 9600;
 const token: string = process.env.TOKEN || '';
+console.log(token)
 const slackApi = new SlackApi(token);
 
 const app = express();
