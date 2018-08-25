@@ -22,6 +22,7 @@ class Category {
 
 class Menu {
     categories: Array<Category>;
+    dynamic?: boolean = false;
     constructor() {
         this.categories = new Array<Category>();
     }

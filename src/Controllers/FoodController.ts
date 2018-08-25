@@ -50,13 +50,13 @@ class FoodController {
                     this.instanceManager._handlePickStageEvent(instance, event);
                     const builder = new OrderingResponseBuilder();
                     const orderMessage = builder.set(instance).setChannel(event.channel.id).build();
-                    const ownerMessage = new OwnerControllsResponseBuilder().set(instance).setChannel(event.channel.id).build();
+                    // const ownerMessage = new OwnerControllsResponseBuilder().set(instance).setChannel(event.channel.id).build();
 
                     this.slackApi.web.chat.postMessage(orderMessage).then((r) => {
                         //@ts-ignore, Ignoring 'non existant' timestap id.
                         instance.timestampId = r.ts;
                         //@ts-ignore, Ignoring 'non existant' timestap id.
-                        this.slackApi.web.chat.postEphemeral(ownerMessage).then((r) => {instance.ownerControllsId = r.ts});
+                        // this.slackApi.web.chat.postMessage(ownerMessage).then((r) => {instance.ownerControllsId = r.ts});
                     });
                     return ResponseBuilder.deleteMessage();
                 }
@@ -76,10 +76,24 @@ class FoodController {
                                 text: 'You have no orders'
                             }).then((r) => console.log(r));
                         }
-                        
                     } else if (action === 'pay') {
                         const id = event.actions[0].selected_options[0].value;
                         instance.toggleOrderStatus(event.user, id);
+                        const builder = new OrderingResponseBuilder();
+                        const orderMessage = builder.set(instance).setChannel(event.channel.id).build();
+                        this.slackApi.web.chat.update({ts: instance.timestampId, ...orderMessage});
+                    } else if (event.user.id === instance.owner.id) {
+                        if (action === 'roll' && instance.orders.length > 0) {
+                            const rOrder = this.instanceManager.getRandomOrder(instance);
+                            this.slackApi.web.chat.postMessage( {
+                                channel: event.channel.id,
+                                text: `:confetti_ball: <@${rOrder.user.id}> laimejo visiem parnest valgyt! :confetti_ball::confetti_ball::confetti_ball:`
+                            }).then();
+                        } else if (action === 'close_new') {
+                            instance.locked = true;
+                        } else {
+                            return null;
+                        }
                         const builder = new OrderingResponseBuilder();
                         const orderMessage = builder.set(instance).setChannel(event.channel.id).build();
                         this.slackApi.web.chat.update({ts: instance.timestampId, ...orderMessage});

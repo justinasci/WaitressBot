@@ -15,8 +15,7 @@ class OwnerControllsResponseBuilder extends ResponseBuilder {
             color: '#3AA3E3',
             actions: [],
         };
-        attachment.actions.push(this.baseButtonAction('Roll', 'add'));
-        attachment.actions.push(this.baseButtonAction('Close', 'add'));
+
 
         this.attachments.push(attachment);
         return this;

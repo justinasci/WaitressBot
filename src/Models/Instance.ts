@@ -3,7 +3,7 @@ import { RandomUtils } from "../RandomUtils";
 import { User } from "./User";
 import { UserOrder } from "./UserOrder";
 
-enum Stage { PICK_RESTAURANT, ORDERING, ROLLING, DONE }
+enum Stage { PICK_RESTAURANT, ORDERING }
 
 class Instance {
     restaurant: Restaurant;
@@ -13,6 +13,7 @@ class Instance {
     owner: User;
     ownerControllsId: string;
     orders: Array<UserOrder>;
+    locked: boolean = false;
     private _idTracker: number = 0;
 
     constructor() {
@@ -26,10 +27,24 @@ class Instance {
         uorder.user = user;
         uorder.id = this._idTracker++;
         uorder.order = '';
+
+        const custom = order['custom_add'];
+        if (custom) {
+            const cat = this.restaurant.menu.find('custom');
+            const item = cat.find(custom);
+            if(!item) {
+                cat.items.push({
+                    name: custom,
+                    price: 0
+                })
+                delete order['custom_add'];
+                order['custom'] = custom;
+            }
+        }
+
         this.restaurant.menu.categories.forEach(category => {
             const selectedItem = order[category.name];
-            const item = category.find(selectedItem);
-            console.log(item);
+            let item = category.find(selectedItem);
             uorder.order += `${item.name} `;
         });
 

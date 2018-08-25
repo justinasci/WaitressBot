@@ -62,14 +62,21 @@ class OrderingResponseBuilder extends ResponseBuilder {
 
         instance.orders.forEach(order => {
             options.push({
-                text: `${order.id}. <@${order.user.name}> ${(!order.paid)? ':exclamation:': ''} `,
+                text: `${order.id}. ${order.user.name} ${(!order.paid)? ':exclamation:': ''} `,
                 value: order.id.toString(),
             });
         });
 
-        attachment.actions.push(this.baseButtonAction('Order', 'add'));
+        if(!instance.locked) {
+            attachment.actions.push(this.baseButtonAction('Order', 'add'));
+        }
+
         attachment.actions.push(this.cancelButtonAction('Cancel my Order', 'cancel'));
         attachment.actions.push(this.baseSelect('pay','Toggle Order Status', options));
+        attachment.actions.push(this.baseButtonAction('Roll', 'roll'));
+        if (!instance.locked) {
+            attachment.actions.push(this.baseButtonAction('Close New Orders', 'close_new'));
+        }
 
 
         this.attachments.push(attachment);

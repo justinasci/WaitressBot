@@ -18,7 +18,6 @@ class CancelOrderDialogBuilder extends DialogBuilder {
         const userOrders: UserOrder[] = instance.orders.filter((o) => o.user.id === user.id);
         const formatter = (uo: UserOrder) => `${uo.id}. <@${uo.order}> ${(!uo.paid)? ':exclamation:': ''} `;
 
-
         if(userOrders.length > 0) {
             const options: SelectOption[] = [];
             userOrders.forEach((uo) => {

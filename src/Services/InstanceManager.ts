@@ -1,5 +1,5 @@
 import { Instance, Stage } from "../Models/Instance";
-import { RestaurantService, Menu } from "../Models/Restaurants";
+import { RestaurantService, Menu, Restaurant, Category } from "../Models/Restaurants";
 import { SlackApi } from "../Models/SlackApi";
 import { eventNames } from "cluster";
 
@@ -23,6 +23,13 @@ class InstanceManager {
         return this.instances.get(token);
     }
 
+    getRandomOrder (instance: Instance) {
+        // Kazkada bus random.org
+        const len = instance.orders.length;
+        const randomNumber = Math.floor(Math.random() * len);
+        return instance.orders[randomNumber];
+    }
+
     handleEvent(event): Instance {
         const instance = this.instances.get(event.callback_id);
         if (instance.stage === Stage.PICK_RESTAURANT) {
@@ -37,7 +44,19 @@ class InstanceManager {
     _handlePickStageEvent(instance: Instance, event): Instance {
         const restaurantName = event.actions[0].value;
         const restaurant = this.restaurantService.get(restaurantName);
-        instance.restaurant = restaurant;
+        if (restaurant) {
+            instance.restaurant = restaurant;
+        } else {
+            instance.restaurant = new Restaurant();
+            instance.restaurant.menu = new Menu();
+            instance.restaurant.name = 'Custom Order';
+            instance.restaurant.menu.dynamic = true;
+            const cat = new Category();
+            cat.name = 'custom';
+            instance.restaurant.menu.categories.push(cat);
+        }
+
+
         instance.stage = Stage.ORDERING;
         return instance;
     }

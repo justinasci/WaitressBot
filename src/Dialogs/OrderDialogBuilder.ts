@@ -22,21 +22,26 @@ class OrderDialogBuilder extends DialogBuilder {
                         value: item.name
                     }
                     return t;
-                })
-                this.dialogArguments.dialog.elements.push({
-                    name: category.name,
-                    label: category.name,
-                    type: 'select',
-                    options: options
                 });
+                if(options.length > 0) {
+                    this.dialogArguments.dialog.elements.push({
+                        name: category.name,
+                        label: category.name,
+                        type: 'select',
+                        options: options
+                    });
+                }
             });
             
-        } else {
-            this.dialogArguments.dialog.elements.push({
-                name: 'order',
-                label: 'Order',
-                type: 'text',
-            });
+        };
+
+        if(menu.dynamic) {
+                this.dialogArguments.dialog.elements.push({
+                    name: 'custom_add',
+                    label: 'Order',
+                    type: 'text',
+                    optional: this.dialogArguments.dialog.elements.length > 0
+                });
         }
 
         this.dialogArguments.dialog.elements.push({

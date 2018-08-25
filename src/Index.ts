@@ -10,7 +10,7 @@ const restaurantService: RestaurantService = new RestaurantService();
 
 
 const port = process.env.PORT || 9600;
-const token: string = process.env.TOKEN || 'xoxb-419484598676-419488947316-4yHqpDEh2wDy0TNFBdxsRwAq';
+const token: string = process.env.TOKEN || '';
 const slackApi = new SlackApi(token);
 
 const app = express();
