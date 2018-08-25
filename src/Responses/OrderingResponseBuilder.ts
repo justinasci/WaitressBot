@@ -9,7 +9,6 @@ interface UniqueOrder {
     userOrders: UserOrder[];
 }
 
-
 class OrderingResponseBuilder extends ResponseBuilder {
 
     mapUniqueOrders(orders: UserOrder[]) : Array<UniqueOrder> {
@@ -27,6 +26,11 @@ class OrderingResponseBuilder extends ResponseBuilder {
         return Array.from(map.values());
     }
 
+    formatUsers(uo: UserOrder) {
+        const linebreak = '\n';
+        return `${uo.id}. <@${uo.user.name}> ${(!uo.paid)? ':exclamation:': ''} ${(uo.comment)? '(' + uo.comment +')': ''} ${linebreak}`;
+    }
+
     set(instance: Instance) {
         this.setVisibleToAll();
         const attachment : MessageAttachment = {
@@ -38,12 +42,10 @@ class OrderingResponseBuilder extends ResponseBuilder {
         };
 
         const uniqueOrders: UniqueOrder[] = this.mapUniqueOrders(instance.orders);
-        const linebreak = '\n';
-        const formatUsers = (uo: UserOrder) => `${uo.id}. <@${uo.user.name}> ${(!uo.paid)? ':exclamation:': ''} ${(uo.comment)? '(' + uo.comment +')': ''} ${linebreak}`;
 
         uniqueOrders.forEach(order => {
             const users: string = order.userOrders
-                .map(formatUsers)
+                .map(this.formatUsers)
                 .reduce((p, c) => `${p} ${c}`);
 
             attachment.fields.push({
@@ -54,7 +56,7 @@ class OrderingResponseBuilder extends ResponseBuilder {
         });
 
         attachment.actions.push(this.baseButtonAction('Order', 'add'));
-        attachment.actions.push(this.cancelButtonAction('Cancel my Order', 'add'));
+        attachment.actions.push(this.cancelButtonAction('Cancel my Order', 'cancel'));
         this.attachments.push(attachment);
         return this;
     }

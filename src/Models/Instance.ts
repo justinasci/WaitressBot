@@ -13,6 +13,7 @@ class Instance {
     owner: User;
     ownerControllsId: string;
     orders: Array<UserOrder>;
+    private _idTracker: number = 0;
 
     constructor() {
         this.stage = Stage.PICK_RESTAURANT;
@@ -23,7 +24,7 @@ class Instance {
     addOrder(user: User,order: any) {
         const uorder = new UserOrder();
         uorder.user = user;
-        uorder.id = this.orders.length;
+        uorder.id = this._idTracker++;
         uorder.order = '';
         let price = 0;
         this.restaurant.menu.categories.forEach(category => {
@@ -41,8 +42,18 @@ class Instance {
         this.orders.push(uorder);
     }
 
-    removeOrder() {
-
+    removeOrder(user: User, cancelation: any): boolean {
+        const id = Number.parseInt(cancelation.id);
+        if(id === null) return false;
+        const orders = this.orders.filter((uo) => uo.id === id);
+        if(orders.length > 0) {
+            if(orders[0].user.id == user.id) 
+            {
+                this.orders = this.orders.filter((uo) => uo.id !== id);
+                return true;
+            }
+        }
+        return false;
     }
 }
 

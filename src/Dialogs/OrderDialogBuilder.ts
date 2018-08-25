@@ -3,11 +3,11 @@ import { Instance } from "../Models/Instance";
 import { SelectOption } from "@slack/client";
 
 class OrderDialogBuilder extends DialogBuilder {
-    set(instance: Instance, triggerId): OrderDialogBuilder {
+    set(instance: Instance, triggerId: string): OrderDialogBuilder {
         this.dialogArguments = {
             trigger_id: triggerId,
             dialog: {
-                callback_id: instance.token,
+                callback_id: instance.token + '_order',
                 elements: [],
                 title: 'Pick your food nibba'
             },
