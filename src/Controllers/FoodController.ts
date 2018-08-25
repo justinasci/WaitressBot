@@ -1,4 +1,3 @@
-import { FoodService } from "../Services/FoodService";
 import { RestaurantService } from "../Models/Restaurants";
 import { RestaurantResponseBuilder } from "../Responses/RestaurantResponseBuilder";
 import { InstanceManager } from "../Services/InstanceManager";
@@ -11,25 +10,26 @@ import { OwnerControllsResponseBuilder }from'../Responses/OwnerControllsResponse
 import { OrderDialogBuilder } from "../Dialogs/OrderDialogBuilder";
 
 class FoodController {
-    foodService :FoodService;
     restaurantService: RestaurantService;
     instanceManager: InstanceManager; 
     slackApi: SlackApi;
 
-    constructor(foodService: FoodService, restaurantService: RestaurantService, instanceManager: InstanceManager, slackApi: SlackApi) {
-        this.foodService = foodService;
+    constructor(restaurantService: RestaurantService, instanceManager: InstanceManager, slackApi: SlackApi) {
         this.restaurantService = restaurantService;
         this.instanceManager = instanceManager;
         this.slackApi = slackApi;
     } 
 
     startOrderInstance(request): any {
-        console.log(request);
         const restaurants = this.restaurantService.getAll();
         const instance = new Instance();
         instance.owner = {id: request.user_id, name: request.user_name};
         this.instanceManager.add(instance);
         return new RestaurantResponseBuilder().set(restaurants, instance.token).build();
+    }
+
+    updateOrder(instance: Instance) {
+
     }
 
     processEvent(event): any {
@@ -49,19 +49,25 @@ class FoodController {
                         //@ts-ignore, Ignoring 'non existant' timestap id.
                         this.slackApi.web.chat.postEphemeral(ownerMessage).then((r) => {instance.ownerControllsId = r.ts});
                     });
-                    console.log(ownerMessage);
-                    console.log(instance);
                     return ResponseBuilder.deleteMessage();
                 }
 
                 if (instance.stage === Stage.ORDERING) {
                     const builder = new OrderDialogBuilder().set(instance, event.trigger_id);
-                    console.log(builder.build());
                     this.slackApi.web.dialog.open(builder.build()).then(r => { console.log(r)}).catch(err => console.log(err));
                 }
             }
+        } else if (event.type === 'dialog_submission') {
+            const instance = this.instanceManager.get(event.callback_id);
+            if (instance) {
+                if (instance.stage === Stage.ORDERING) {
+                    instance.addOrder(event.user, event.submission);
+                    const builder = new OrderingResponseBuilder();
+                    const orderMessage = builder.set(instance).setChannel(event.channel.id).build();
+                    this.slackApi.web.chat.update({ts: instance.timestampId, ...orderMessage});
+                }
+            }
         }
-
         return null;
     }
 }

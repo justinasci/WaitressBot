@@ -24,7 +24,7 @@ import { FoodController } from './Controllers/FoodController';
 				res.json(processed); 
 			} else {
 				//@ts-ignore
-				res.status(200);
+				res.status(200).send();
 			}
 
 			return res;

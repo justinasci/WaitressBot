@@ -14,11 +14,10 @@ class RestaurantResponseBuilder extends ResponseBuilder {
         attachment.actions.push(this.baseButtonAction('Other (Reiks uzskymus ranka ivest)', 'other'));
         
         restaurants.forEach(restaurant => {
-            attachment.actions.push(this.baseButtonAction(restaurant.name, restaurant.name.toLowerCase()));
+            attachment.actions.push(this.baseButtonAction(restaurant.name, restaurant.name));
         });
 
         this.attachments.push(attachment);
-        console.log(attachment);
         return this;
     }
 }

@@ -18,8 +18,8 @@ class OrderDialogBuilder extends DialogBuilder {
             menu.categories.forEach(category => {
                 const options = category.items.map((item) => {
                     const t: SelectOption = {
-                        label: `${item.item} | ${item.price} €`,
-                        value: item.item
+                        label: `${item.name} | ${item.price} €`,
+                        value: item.name
                     }
                     return t;
                 })
@@ -30,6 +30,7 @@ class OrderDialogBuilder extends DialogBuilder {
                     options: options
                 });
             });
+            
         } else {
             this.dialogArguments.dialog.elements.push({
                 name: 'uzsakymas',
@@ -37,6 +38,14 @@ class OrderDialogBuilder extends DialogBuilder {
                 type: 'text',
             });
         }
+
+        this.dialogArguments.dialog.elements.push({
+            name: 'comment',
+            label: 'Komentaras',
+            type: 'text',
+            optional: true
+        });
+
         return this;
     }
 }

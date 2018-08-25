@@ -39,6 +39,12 @@ class ResponseBuilder {
         return this;
     }
 
+    buttonAction(name: string, value:string, type: string): AttachmentAction {
+        const base = this.baseButtonAction(name,value);
+        base.style = type;
+        return base;
+    }
+
     baseButtonAction(name:string, value:string) : AttachmentAction {
         const action: AttachmentAction = {
             type: 'button',
@@ -47,6 +53,14 @@ class ResponseBuilder {
             name: name
         }
         return action;
+    }
+
+    cancelButtonAction(name:string, value: string) : AttachmentAction {
+        return this.buttonAction(name,value, 'danger');
+    }
+
+    primaryButtonAction(name:string, value: string): AttachmentAction {
+        return this.buttonAction(name,value, 'primary');
     }
 
     setVisibleToAll() {
