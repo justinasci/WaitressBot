@@ -2,16 +2,13 @@ import * as express from 'express';
 import { Router } from './Router';
 import { SlackApi } from './Models/SlackApi';
 import { FoodController } from './Controllers/FoodController';
-import { RestaurantService } from'./Models/Restaurants';
 import { InstanceManager } from './Services/InstanceManager';
-
+import { RestaurantService } from './Services/RestaurantService';
 
 const restaurantService: RestaurantService = new RestaurantService();
 
-
 const port = process.env.PORT || 9600;
 const token: string = process.env.TOKEN || '';
-console.log(token)
 const slackApi = new SlackApi(token);
 
 const app = express();

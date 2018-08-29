@@ -1,4 +1,4 @@
-import { Restaurant } from "../Models/Restaurants";
+import { Restaurant } from "../Models/Restaurant";
 import { ResponseBuilder } from "./ReponseBuilder";
 import { MessageAttachment } from "@slack/client";
 

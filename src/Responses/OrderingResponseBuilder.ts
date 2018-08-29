@@ -28,7 +28,7 @@ class OrderingResponseBuilder extends ResponseBuilder {
 
     formatUsers(uo: UserOrder) {
         const linebreak = '\n';
-        return `${uo.id}. <@${uo.user.name}> ${(!uo.paid)? ':exclamation:': ''} ${(uo.comment)? '(' + uo.comment +')': ''} ${linebreak}`;
+        return `${uo.id}. <@${uo.user.name}> ${(uo.paid)? ':+1:': ''} ${(uo.comment)? '(' + uo.comment +')': ''} ${linebreak}`;
     }
 
     set(instance: Instance) {
@@ -62,7 +62,7 @@ class OrderingResponseBuilder extends ResponseBuilder {
 
         instance.orders.forEach(order => {
             options.push({
-                text: `${order.id}. ${order.user.name} ${(!order.paid)? ':exclamation:': ''} `,
+                text: `${order.id}. ${order.user.name} ${(order.paid)? ':+1:': ''} `,
                 value: order.id.toString(),
             });
         });
@@ -72,7 +72,7 @@ class OrderingResponseBuilder extends ResponseBuilder {
         }
 
         attachment.actions.push(this.cancelButtonAction('Cancel my Order', 'cancel'));
-        attachment.actions.push(this.baseSelect('pay','Toggle Order Status', options));
+        attachment.actions.push(this.baseSelect('pay','Toggle Payed', options));
         attachment.actions.push(this.baseButtonAction('Roll', 'roll'));
         if (!instance.locked) {
             attachment.actions.push(this.baseButtonAction('Close New Orders', 'close_new'));

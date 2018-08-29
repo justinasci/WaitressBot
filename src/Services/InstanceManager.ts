@@ -1,7 +1,9 @@
 import { Instance, Stage } from "../Models/Instance";
-import { RestaurantService, Menu, Restaurant, Category } from "../Models/Restaurants";
 import { SlackApi } from "../Models/SlackApi";
-import { eventNames } from "cluster";
+import { RestaurantService } from "./RestaurantService";
+import { Restaurant } from "../Models/Restaurant";
+import { Menu } from "../Models/Menu";
+import { Category } from "../Models/Category";
 
 class InstanceManager {
     instances: Map<String, Instance>;

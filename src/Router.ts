@@ -11,7 +11,7 @@ import { FoodController } from './Controllers/FoodController';
 	
 		app.post('/food', this.urlencodedParser,(req: Request, res: Response) => {
 			const response = foodController.startOrderInstance(req.body);
-			//@ts-ignore TS2554, Express TS bindins error
+			//@ts-ignore TS2554, Express TS bindings error
 			res.json(response);
 			return res;
 		});
@@ -20,7 +20,7 @@ import { FoodController } from './Controllers/FoodController';
 			const parsed = JSON.parse(req.body['payload']);
 			const processed = foodController.processEvent(parsed);
 			if(processed) {
-				//@ts-ignore TS2554, Express TS bindins error
+				//@ts-ignore TS2554, Express TS bindings error
 				res.json(processed); 
 			} else {
 				//@ts-ignore

@@ -1,5 +1,4 @@
 import { User } from "./User";
-import { Category } from "./Restaurants";
 
 class UserOrder {
     user: User;

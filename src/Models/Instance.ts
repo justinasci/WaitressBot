@@ -1,7 +1,7 @@
-import { Menu, Restaurant, Category } from "./Restaurants";
 import { RandomUtils } from "../RandomUtils";
 import { User } from "./User";
 import { UserOrder } from "./UserOrder";
+import { Restaurant } from "./Restaurant";
 
 enum Stage { PICK_RESTAURANT, ORDERING }
 

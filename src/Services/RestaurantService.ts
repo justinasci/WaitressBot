@@ -1,43 +1,7 @@
-import * as fs from  'fs';
-
-interface MenuItem {
-    price: number;
-    name: string;
-}
-
-class Category {
-    items: Array<MenuItem>;
-    name: string;
-    optional: boolean
-
-    constructor() {
-        this.items = new Array<MenuItem>();
-        this.optional = false;
-    }
-
-    find(itemName: string): MenuItem {
-        return this.items.find((item) => item.name === itemName);
-    }
-}
-
-class Menu {
-    categories: Array<Category>;
-    dynamic?: boolean = false;
-    constructor() {
-        this.categories = new Array<Category>();
-    }
-
-    find(itemName: string): Category {
-        return this.categories.find((item) => item.name === itemName);
-    }
-}
-
-class Restaurant {
-    name: string;
-    menu: Menu;
-    url: string;
-    imageUrl: string;
-}
+import * as fs from 'fs';
+import { Restaurant } from "../Models/Restaurant";
+import { Menu } from '../Models/Menu';
+import { Category } from '../Models/Category';
 
 class RestaurantService {
     restaurants: Map<string, Restaurant>;
@@ -93,6 +57,6 @@ class RestaurantService {
     save(fileName: String, menu: Menu ) : boolean {
         return true;
     }
-
 } 
-export { Restaurant, RestaurantService, Menu, Category, MenuItem }
+
+export { RestaurantService }
