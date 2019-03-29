@@ -78,7 +78,7 @@ class FoodController {
         return false;
     }
 
-    orderClose(instance) {
+    orderToggle(instance) {
         instance.locked = !instance.locked;
         return true;
     }
@@ -97,8 +97,8 @@ class FoodController {
             if (action === 'roll') {
                 return this.orderRoll(instance, event);
             }
-            if (action === 'close_new') {
-                return this.orderClose(instance);
+            if (action === 'toggle_order') {
+                return this.orderToggle(instance);
             }
         }
     }

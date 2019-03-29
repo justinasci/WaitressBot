@@ -75,7 +75,9 @@ class OrderingResponseBuilder extends ResponseBuilder {
         attachment.actions.push(this.baseSelect('pay','Toggle Paid', options));
         attachment.actions.push(this.baseButtonAction('Roll', 'roll'));
         if (!instance.locked) {
-            attachment.actions.push(this.baseButtonAction('Close New Orders', 'close_new'));
+            attachment.actions.push(this.baseButtonAction('Close New Orders', 'toggle_order'));
+        } else {
+            attachment.actions.push(this.baseButtonAction('Open New Orders', 'toggle_order'));
         }
 
 
