@@ -74,11 +74,12 @@ class FoodController {
             channel: event.channel.id,
             text: `:confetti_ball: <@${rOrder.user.id}> laimejo visiem parnest valgyt! :confetti_ball::confetti_ball::confetti_ball:`
         }).then();
+        instance.locked = true;
         return false;
     }
 
-    orderClose(instance) {
-        instance.locked = true;
+    orderToggle(instance) {
+        instance.locked = !instance.locked;
         return true;
     }
 
@@ -96,8 +97,8 @@ class FoodController {
             if (action === 'roll') {
                 return this.orderRoll(instance, event);
             }
-            if (action === 'close_new') {
-                return this.orderClose(instance);
+            if (action === 'toggle_order') {
+                return this.orderToggle(instance);
             }
         }
     }
