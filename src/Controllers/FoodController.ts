@@ -74,11 +74,12 @@ class FoodController {
             channel: event.channel.id,
             text: `:confetti_ball: <@${rOrder.user.id}> laimejo visiem parnest valgyt! :confetti_ball::confetti_ball::confetti_ball:`
         }).then();
+        instance.locked = true;
         return false;
     }
 
     orderClose(instance) {
-        instance.locked = true;
+        instance.locked = !instance.locked;
         return true;
     }
 
